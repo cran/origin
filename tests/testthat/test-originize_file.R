@@ -35,7 +35,6 @@ testthat::test_that("originize file", {
                  overwrite = TRUE,
                  add_base_packages = FALSE,
                  ask_before_applying_changes = FALSE,
-                 excluded_functions = list(dplyr = "last"),
                  use_markers = FALSE,
                  check_local_conflicts = FALSE,
                  verbose = FALSE)
@@ -115,10 +114,10 @@ testthat::test_that("originize file", {
                      verbose = TRUE),
       regexp = "RStudio not running")
   }
-  
+
   testthat::expect_error(
     originize_file(file = file.path("non", "existing", "file.R")),
     regexp = "No file in this path")
-  
-  
+
+
 })

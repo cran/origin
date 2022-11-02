@@ -1,5 +1,5 @@
 devtools::load_all()
-dplyr::mutate(iris, x = 3)
+mutate(iris, x = 3)
 
 originize_selection(pkgs = "dplyr", overwrite = TRUE)
 originize_file(file.path("inst", "testpath", "file1.R"),
@@ -18,3 +18,5 @@ iris %>%
   dplyr::filter(TRUE)
 
 last(knj, 1)
+myclass$last()
+myclass@last()

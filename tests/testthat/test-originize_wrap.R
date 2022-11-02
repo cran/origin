@@ -149,6 +149,17 @@ testthat::test_that("Do origin wrapper function checks work", {
                                           ask_before_applying_changes = FALSE),
                            regexp = "Nothing detected",
                            fixed = TRUE)
+  testthat::expect_message(originize_wrap(scripts = list(script),
+                                          files = test_file_path,
+                                          type = "writeLines",
+                                          pkgs = "testthat",
+                                          check_conflicts = FALSE,
+                                          add_base_packages = FALSE,
+                                          check_local_conflicts = FALSE,
+                                          verbose = FALSE,
+                                          ask_before_applying_changes = FALSE),
+                           regexp = "Nothing detected",
+                           fixed = TRUE)
 
   # Package is provided multiple times
   testthat::expect_message(
@@ -165,6 +176,80 @@ testthat::test_that("Do origin wrapper function checks work", {
       fixed = TRUE),
     regexp = "Nothing detected",
     fixed = TRUE)
+
+  # InsertText without hits
+  testthat::expect_message(
+    testthat::expect_equal(
+      originize_wrap(scripts = list(script),
+                     files = test_file_path,
+                     type = "insertText",
+                     pkgs = "testthat",
+                     check_conflicts = TRUE,
+                     add_base_packages = FALSE,
+                     check_local_conflicts = FALSE,
+                     verbose = FALSE,
+                     ask_before_applying_changes = FALSE),
+      NULL),
+    regexp = "Nothing detected",
+    fixed = TRUE)
+
+  # Insert Text runs -----------------------------------------------------------
+  testthat::expect_equal(
+    originize_wrap(scripts = list(script),
+                   files = test_file_path,
+                   type = "insertText",
+                   pkgs = "dplyr",
+                   check_conflicts = FALSE,
+                   add_base_packages = FALSE,
+                   check_local_conflicts = FALSE,
+                   verbose = FALSE,
+                   ask_before_applying_changes = FALSE),
+    NULL)
+
+  testthat::expect_equal(
+    originize_wrap(scripts = list(script),
+                   files = test_file_path,
+                   type = "insertText",
+                   pkgs = "dplyr",
+                   check_conflicts = FALSE,
+                   add_base_packages = FALSE,
+                   check_local_conflicts = FALSE,
+                   verbose = FALSE,
+                   ask_before_applying_changes = FALSE,
+                   overwrite = FALSE),
+    NULL)
+
+  # with logging
+  if (!rstudioapi::isAvailable()) {
+    testthat::expect_error(
+      testthat::expect_equal(
+        originize_wrap(scripts = list(script),
+                       files = test_file_path,
+                       type = "insertText",
+                       pkgs = c("dplyr", "purrr"),
+                       check_conflicts = FALSE,
+                       add_base_packages = FALSE,
+                       check_local_conflicts = FALSE,
+                       verbose = TRUE,
+                       ask_before_applying_changes = FALSE),
+        NULL),
+      regexp = "RStudio not running",
+      fixed = TRUE)
+  } else {
+    testthat::expect_equal(
+      originize_wrap(scripts = list(script),
+                     files = test_file_path,
+                     type = "insertText",
+                     pkgs = c("dplyr", "purrr"),
+                     check_conflicts = FALSE,
+                     add_base_packages = FALSE,
+                     check_local_conflicts = FALSE,
+                     verbose = TRUE,
+                     ask_before_applying_changes = FALSE),
+      NULL)
+
+  }
+
 
   # Local Conflicts are checked
   testthat::expect_message(
@@ -196,6 +281,24 @@ testthat::test_that("Do origin wrapper function checks work", {
     regexp = "Nothing detected",
     fixed = TRUE)
 
+  # no exported functions in script
+  testthat::expect_message(
+    originize_wrap(scripts = list(script[1:20]),
+                   files = test_file_path,
+                   type = "writeLines",
+                   pkgs = "rstudioapi",
+                   add_base_packages = FALSE,
+                   check_local_conflicts = FALSE,
+                   verbose = FALSE,
+                   ask_before_applying_changes = FALSE),
+    regexp = "Nothing detected",
+    fixed = TRUE)
+
+  # path to local functions doesnt exist
+  testthat::expect_error(
+    originize_wrap(path_to_local_functions = "foobar"),
+    regexp = "does not exist",
+    fixed = TRUE)
 
 
 

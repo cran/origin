@@ -2,9 +2,29 @@ testthat::test_that("solve_local_duplicates triggers the expected messages", {
 
   dir <- tempfile()
   dir.create(dir)
+
+  # create 20 empty files
+  # checks trigger of originizing many files and ignoring emptxy files
+  lapply(1:20, function(i) {
+    writeLines("", con = file.path(dir, sprintf("testfile_empty_%s.R", i)))
+  })
+
+  # In einem Schritt, mit crosschecks
+  testthat::expect_message(
+    testthat::expect_equal(
+      originize_dir(dir,
+                    pkgs = c("data.table",
+                             "dplyr"
+                    ), check_local_conflicts = FALSE),
+      NULL
+    ),
+    regexp = "All provided scripts are empty"
+  )
+
+
   test_file_path1 <- file.path(dir, "testfile1.R")
   test_file_path2 <- file.path(dir, "testfile2.R")
-  test_file_path3 <- file.path(dir, "testfile_empty.R")
+  test_empty_file_path <- file.path(dir, "empty_testfile.R")
   target_file_path1 <- file.path(dir, "targetfile1.R")
   target_file_path2 <- file.path(dir, "targetfile2.R")
 
@@ -36,9 +56,10 @@ testthat::test_that("solve_local_duplicates triggers the expected messages", {
                        grepl("TESTSKRIPT", nms, fixed = TRUE)],
              con = test_file_path2)
 
+  writeLines(c("", "", ""),
+             con = test_empty_file_path)
 
-  # write an empty file
-  writeLines("", con = test_file_path3)
+
 
   # In einem Schritt, mit crosschecks
   originize_dir(dir,
@@ -56,12 +77,15 @@ testthat::test_that("solve_local_duplicates triggers the expected messages", {
 
   testfile_after1 <- readLines(test_file_path1)
   testfile_after2 <- readLines(test_file_path2)
+  testempty_file_after <- readLines(test_empty_file_path)
 
   testthat::expect_equal(testfile_after1[1:20],
                          test_text[1:20, grepl("TARGET", nms, fixed = TRUE)])
   testthat::expect_equal(testfile_after2,
                          test_text[21:nrow(test_text),
                                    grepl("TARGET", nms, fixed = TRUE)])
+  testthat::expect_equal(testempty_file_after,
+                         c("", "", ""))
 
 
   # reset

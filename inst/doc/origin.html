@@ -559,27 +559,22 @@ those are actually still needed. Just run all those
 <code>check_pkg_usage()</code></p>
 <div id="interpreting-the-output-of-check_pkg_usage" class="section level3">
 <h3>Interpreting the Output of check_pkg_usage</h3>
-<pre><code>result &lt;- check_pkg_usage()
-result
-Used Packages: 2 
+<pre><code>== Package Usage Report ================================================
+-- Used Packages: 2 ----------------------------------------------------
+v data.table
+v testthat  
 
-    data.table, testthat
+-- Unused Packages: 1 --------------------------------------------------
+i dplyr
 
-Unused Packages: 1 
+-- Possible Namespace Conflicts:  1 -----------------------------------
+x last      data.table &gt;&gt; dplyr
 
-    dplyr
+-- Specifically (`pkg::fun()`) further used Packages: 2 ----------------
+i purrr
 
-Possible Namespace Conflicts:  1
-
-    last        data.table &gt;&gt; dplyr
-
-Specifically (`pkg::fun()`) further used Packages: 1
-
-    purrr
-
-Functions with unknown origin: 1 
-
-    map</code></pre>
+-- Functions with unknown origin: 1 ------------------------------------
+x map</code></pre>
 <p>The output shows - we had attached 3 packages: {data.table},
 {testthat}, and {dplyr} - functions from {data.table} and {testthat} are
 used - {dplyr} functions are not used - a namespace conflict for the

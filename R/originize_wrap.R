@@ -112,41 +112,63 @@ originize_wrap <-
                                            files,
                                            scripts,
                                            path_to_local_functions,
-                                           script_collapsed)
+                                           script_collapsed,
+                                           ask_before_applying_changes)
     }
     
+    # parse all scripts
+    if (type == "writeLines"){
+      script_parsed <- Reduce(f = rbind,
+                              lapply(X = files,
+                                     FUN = get_parsed_data))
+    } else {
+      scripts_vec <- vapply(X = scripts[[1]],
+                            FUN = function(x) {
+                              if (length(x) == 0) {
+                                x <- ""
+                              }
+                              return(x)
+                            }, FUN.VALUE = "")
+      script_parsed <- get_parsed_data(text = scripts_vec,
+                                       file = files)
+    }
     
     # DUPLICATES ---------------------------------------------------------------
     # find functions, that are called within multiple packages
     # a automatic assignment is not possible in such cases
     # a deterministic order is chosen
     
+    rel_tokens <- c("SYMBOL", "SYMBOL_FUNCTION_CALL")
+    given_texts <- unique(script_parsed[script_parsed$token %in% rel_tokens,
+                                        "text"])
     if (check_conflicts) {
-      
       # get duplicate functions
       dups <- sort(get_fun_duplicates(functions))
       dups_with_pkg <-
         stats::setNames(object = unique(dups),
                         nm = by(names(dups), dups, paste, collapse = ", "))
       
-      # parse all scripts
-      if (type == "writeLines"){
-        script_parsed <- Reduce(f = rbind,
-                                lapply(X = files,
-                                       FUN = get_parsed_data))
-      } else {
-        script_parsed <- get_parsed_data(text = unlist(scripts),
-                                         file = files)
-      }
       
       # which duplicates are in the script, independet of whther be used as a
       # regular function (SYMBOL_FUNCTION_CALL)
-      dup_funs_in_script <- dups_with_pkg %in% script_parsed$text
+      dup_funs_in_script <- dups_with_pkg %in% given_texts
       
       # Require User interaction if duplicates are detected
       if (any(dup_funs_in_script)) {
-        solve_fun_duplicates(dups = dups_with_pkg[dup_funs_in_script],
-                             pkgs = pkgs)
+        solve_fun_duplicates(
+          dups = dups_with_pkg[dup_funs_in_script],
+          pkgs = pkgs,
+          ask_before_applying_changes = ask_before_applying_changes)
+        
+        # remove unneeded duplicates 
+        to_rm <- dups[dups %in% dups_with_pkg[dup_funs_in_script]]
+        to_rm <- to_rm[duplicated(to_rm)]
+        fun_from_pkg <- unique(names(to_rm))
+        functions[fun_from_pkg] <- lapply(fun_from_pkg,
+                                          FUN = function(pkg) {
+                                            setdiff(functions[[pkg]],
+                                                    to_rm[names(to_rm) == pkg])
+                                          })
       }
     }
     
@@ -172,27 +194,13 @@ originize_wrap <-
       stop("No non-excluded exported functions in given packages.")
     }
     
-    # reduce checked functions to matched names in any part of any script
-    
-    # in case this full script collapsing has not happend earlier.
-    # better performance if an error is triggered prior to this step
-    if (!exists("script_parsed")) {
-      # parse all scripts
-      if (type == "writeLines"){
-        script_parsed <- Reduce(f = rbind,
-                                lapply(X = files,
-                                       FUN = get_parsed_data))
-      } else {
-        script_parsed <- get_parsed_data(text = unlist(scripts),
-                                         file = files)
-      }
-    }
-
     # TODO: still time improvement?
-    functions <- lapply(functions,
-                        FUN = function(funs) {
-                          funs[funs %in% script_parsed$text]
-                        })
+    functions <-
+      lapply(
+        X = functions,
+        FUN = function(funs) {
+          funs[funs %in% given_texts]
+        })
     
     # keep relevant packages only,
     # i.e. packages that export functions that might be used
@@ -204,27 +212,41 @@ originize_wrap <-
       message("Nothing detected")
       return(NULL)
     }
+    # recover very long strings.
+    # parse truncates strings that are longer than 1000 characters. To recover
+    # the initial input, these strings have to be stored in the data
+    names(scripts) <- files
+    trunc <- grepl(pattern = "^\\[[0-9]+ chars quoted with",
+                   x = script_parsed$text)
+    
+    if (any(trunc)) {
+      # loop over all truncated strings
+      for (tt in which(trunc)) {
+        # get a truncated row
+        df_trunc <- script_parsed[tt, ]
+        # get lines that contain the initial text
+        imp <- unlist(scripts[[ df_trunc$file ]][df_trunc$line1:df_trunc$line2])
+        
+        # if the string does not start at the beginning of the line, cut what
+        # comes before the string
+        imp[1] <- substr(imp[1],
+                         start = df_trunc$col1,
+                         stop = nchar(imp[1]))
+        # if the string does not end at the end of the line, cut what comes
+        # after the string
+        imp[length(imp)] <- substr(imp[length(imp)],
+                                   start = 1,
+                                   stop = df_trunc$col2)
+        # replace the chars quoted with with the actual initial string
+        script_parsed[tt, "text"] <- paste(imp, collapse = "\n")
+      }
+    }
     
     results <- originize(dat = script_parsed,
                          functions = functions,
                          pkgs = names(functions),
                          verbose = verbose,
                          use_markers = use_markers)
-    # apply originize function to each file/script#
-    # results <- mapply(
-    #   FUN = function(f, s) {
-    #     originize(file = f,
-    #               script = s,
-    #               functions = functions,
-    #               pkgs = names(functions),
-    #               verbose = verbose,
-    #               use_markers = use_markers)
-    #   },
-    #   files,
-    #   scripts,
-    #   SIMPLIFY = FALSE,
-    #   USE.NAMES = TRUE
-    # )
     
     # nothing to log
     if ((verbose && length(results$logging_data) == 0) ||
@@ -241,7 +263,7 @@ originize_wrap <-
       pos_filled_lines <- which(!empty_lines)
       if (all(empty_lines)) {
         return(pos_empty_lines)
-      } 
+      }
       to_append <- pos_empty_lines[pos_empty_lines > max(pos_filled_lines)]
       return(to_append)
     })
@@ -263,9 +285,13 @@ originize_wrap <-
         # in case the last line of a script is empty, strsplit does not create
         # an empty character. Hence, the script object is one element shorter
         # than lines selected and the assignment would fial
-        results$logging_data$line <-
-          selected_lines[results$logging_data$line]
-        
+        if (!is.null(selected_lines)) {
+          results$logging_data$line <- selected_lines[results$logging_data$line] # nocov
+          
+          # only for running tests
+        } else {
+          results$logging_data$line <- seq_along(results$logging_data[[1]])
+        }
         run_logging(results$logging_data, use_markers = use_markers)
       } else {
         run_logging(

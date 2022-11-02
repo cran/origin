@@ -9,6 +9,7 @@
 #' @param scripts list of r scripts
 #' @param path_to_local_functions specific path to loacal functions.
 #'   Defaults to "."
+#' @template ask_before_applying_changes
 #'
 #' @return cleaned functions-list
 #' @noRd
@@ -16,7 +17,8 @@ exclude_local_functions <- function(functions,
                                     files,
                                     scripts,
                                     path_to_local_functions,
-                                    script_collapsed) {
+                                    script_collapsed,
+                                    ask_before_applying_changes = TRUE) {
   # get root path of the current project
   if (is.null(path_to_local_functions)) {
     project_path <- try(rstudioapi::getActiveProject())
@@ -29,17 +31,21 @@ exclude_local_functions <- function(functions,
       project_path_found <- FALSE
       warning(paste("RStudio not running. Hence, no project path to",
                     "search for local functions can be determined."))
+
+      # nocov start
     } else if (is.null(project_path)) {
       project_path_found <- FALSE
       warning(paste("origin not run from within a project.",
                     "Cannot check for local functions"))
     }
+    # nocov end
 
     # Are all checked files in the current project?
     # It is possible to originize one project from within another project
     # Then, it is unclear which local functions are to consider and
     # the check is skipped
     if (project_path_found &&
+        # nocov start
         !all(not_in_project <- startsWith(x = normalizePath(files,
                                                             winslash = "/"),
                                           prefix = project_path))
@@ -55,11 +61,14 @@ exclude_local_functions <- function(functions,
 
   } else {
     # a directory is provided
+    project_path_found <- TRUE
     project_path <- path_to_local_functions
   }
+  # nocov end
 
 
   if (project_path_found &&
+      # nocov start
       !is.null(project_path) &&
       !is.na(project_path) &&
       nzchar(project_path)) {
@@ -104,7 +113,8 @@ exclude_local_functions <- function(functions,
         if (any(local_dup_funs_in_script)) {
           # inform the user
           solve_local_duplicates(
-            local_dups_with_pkg[local_dup_funs_in_script])
+            local_dups_with_pkg[local_dup_funs_in_script],
+            ask_before_applying_changes = ask_before_applying_changes)
 
           # exclude these local functions from originizing
           functions <-
@@ -115,5 +125,7 @@ exclude_local_functions <- function(functions,
       }
     }
   }
+  # nocov end
+
   return(functions)
 }
