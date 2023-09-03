@@ -1,7 +1,7 @@
-1d853400f102dbff8f352080f82f8b1b *DESCRIPTION
+e8fef89e2a112868da6294a6bed08b4f *DESCRIPTION
 dc69f3a341fd1f0cd80f9b2ec4347134 *LICENSE
 35bcb384381bf174f8625b68d0c35db8 *NAMESPACE
-b28b2b9fda6c0b6d165795783442f8a2 *NEWS.md
+1f8b7e71cb5128f151e4d6d2e1973943 *NEWS.md
 6240d88da0f5741ef30724ee0c0c0a1d *R/apply_changes.R
 03f4169eaa23604859cb6a7fc409aeda *R/check_pkg_usage.R
 9343112afcccd16a193ecb66b9403bf8 *R/duplicated_all.R
@@ -39,11 +39,11 @@ f6a3def379d02a516b81ff87e5381d31 *R/setdiff_specific.R
 1d011951e08c53c2fce7e77d22526e62 *R/testscript.R
 605372244755c96fc8d0d078200cb7c8 *R/un_list.R
 675b3297e3dd153b7f7b44fbc5348ebd *R/zzz.R
-f2c779d66d43c049b404e4cdd4ec8e8c *README.md
-810ff1039e3d5879d8e905b4d6d1fe80 *build/vignette.rds
+2afc11f420c82bc68ba16751f888abbe *README.md
+547fb4527a918cc83ab938954d05ff77 *build/vignette.rds
 a12db14cde4738ad46b23bc5277a5cc7 *inst/doc/origin.R
 f6fa68977ed3389132cbe3c615d3c377 *inst/doc/origin.Rmd
-c2d9f11b859f4e631bbc719d28e3a91e *inst/doc/origin.html
+dd8b6593c3509b5befce029a2eda0509 *inst/doc/origin.html
 14fc343d56a3f2e6c5946af130e8b7ba *inst/rstudio/addins.dcf
 9eeac4fca65ae7d6a77cb670d898ccb3 *inst/testdata/test_script.R
 d90774bc90469101054203ef0cb3a726 *inst/testdata/testscript.csv
@@ -68,7 +68,7 @@ a6c6d1b7975064435576d14cd871e22e *man/originize_dir.Rd
 59c06b4abab1d77ea52f6ec6a43f008d *tests/testthat/test-check_pkg_usage.R
 3f858ecc5ac29275babaad96ec118f63 *tests/testthat/test-duplicated_all.R
 ef15202af128e62507366ddd56c5f52b *tests/testthat/test-exclude_functions.R
-2c985769bf6ba8638e3ad5c19d386e84 *tests/testthat/test-find_functions.R
+2186c22e7c41755493cef847f900fc9f *tests/testthat/test-find_functions.R
 44d7f25bf61f79b1818b1952c52e6efe *tests/testthat/test-get_exported_functions.R
 2d7f8b159cfa7b6ffb163c45b59f048f *tests/testthat/test-get_local_functions.R
 dc88767ec4343747965fa17204ba786e *tests/testthat/test-get_project_package.R
