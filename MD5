@@ -1,7 +1,7 @@
-e8fef89e2a112868da6294a6bed08b4f *DESCRIPTION
+aa2cb03357795704a4ab58959b54b97e *DESCRIPTION
 dc69f3a341fd1f0cd80f9b2ec4347134 *LICENSE
 35bcb384381bf174f8625b68d0c35db8 *NAMESPACE
-1f8b7e71cb5128f151e4d6d2e1973943 *NEWS.md
+9178d4bce72dcd696f4a410720a563e7 *NEWS.md
 6240d88da0f5741ef30724ee0c0c0a1d *R/apply_changes.R
 03f4169eaa23604859cb6a7fc409aeda *R/check_pkg_usage.R
 9343112afcccd16a193ecb66b9403bf8 *R/duplicated_all.R
@@ -9,7 +9,7 @@ aa89159245050347b8e77370a088ca20 *R/escape_strings.R
 d7152193a2ddf523c6ba31965e8bc97d *R/exclude_functions.R
 550010f17cd30d328263433648ebbab0 *R/exclude_local_functions.R
 e0d3f9849b4eb3082975e8e986e5e5a9 *R/find_functions.R
-19ffcdc78c8acc1a60dc84931ba273b2 *R/fix_html_tokens.R
+8faea9f6d8186ff502c49d0dbe389b05 *R/fix_html_tokens.R
 bb3e1020eb1edb4fba4eac3dfdd8e47e *R/get_exported_functions.R
 826f5c1a117d1a09cfdccd5591f2d1ba *R/get_fun_duplicates.R
 a88355e7fc325ac0a7bf7b486e402c80 *R/get_function_calls.R
@@ -31,7 +31,7 @@ cbba37eadaa7286fa1a0e2c86580aa98 *R/originize_text.R
 4d25ff635ef4c784a61c0190670e94ae *R/originize_wrap.R
 53ad1135cd13a6f0f8dcd735efa05cd3 *R/print.pkg_usage.R
 18c59cb57df962b4b1af2f3d8879a0c8 *R/revert_parse_data.R
-7a62dcaec84fc4f1c495476e455542b1 *R/run_logging.R
+e06ed33a501b74587c24abd0adfbb860 *R/run_logging.R
 c2de8809e8a8c08fc4bf6e2a04ac6cce *R/set_marker_type.R
 f6a3def379d02a516b81ff87e5381d31 *R/setdiff_specific.R
 0a29ed2b08ae65088185858367db3fcf *R/solve_fun_duplicates.R
@@ -39,9 +39,9 @@ f6a3def379d02a516b81ff87e5381d31 *R/setdiff_specific.R
 1d011951e08c53c2fce7e77d22526e62 *R/testscript.R
 605372244755c96fc8d0d078200cb7c8 *R/un_list.R
 675b3297e3dd153b7f7b44fbc5348ebd *R/zzz.R
-2afc11f420c82bc68ba16751f888abbe *README.md
-547fb4527a918cc83ab938954d05ff77 *build/vignette.rds
-a12db14cde4738ad46b23bc5277a5cc7 *inst/doc/origin.R
+77f5ba8db0e68bc94b75019938782ea1 *README.md
+f249f975bc1bc44c346019beb0e1625d *build/vignette.rds
+802290ac34667d39bd34da26d3f37475 *inst/doc/origin.R
 f6fa68977ed3389132cbe3c615d3c377 *inst/doc/origin.Rmd
 dd8b6593c3509b5befce029a2eda0509 *inst/doc/origin.html
 14fc343d56a3f2e6c5946af130e8b7ba *inst/rstudio/addins.dcf
@@ -63,7 +63,7 @@ a6c6d1b7975064435576d14cd871e22e *man/originize_dir.Rd
 8b304be918981db2a04dd9a269024113 *man/print.pkg_usage.Rd
 2ab3136999654a58c4f5f0df3105c8f7 *tests/testthat.R
 459acda0b5ffdbc2337d06dcded12841 *tests/testthat/_snaps/check_pkg_usage.md
-4544ace9955813189ee50b8f82f22c7b *tests/testthat/_snaps/print.md
+abeb60fbd1c5463a4a851b0dc89b23c4 *tests/testthat/_snaps/print.md
 98f2c3addedaf89e89d50cbb68d33f47 *tests/testthat/test-apply_changes.R
 59c06b4abab1d77ea52f6ec6a43f008d *tests/testthat/test-check_pkg_usage.R
 3f858ecc5ac29275babaad96ec118f63 *tests/testthat/test-duplicated_all.R
@@ -77,7 +77,7 @@ dc88767ec4343747965fa17204ba786e *tests/testthat/test-get_project_package.R
 8d84511c8206c0e036f3b51250fc5b12 *tests/testthat/test-originize_file.R
 314bb6c93842149ce0736c25ea247487 *tests/testthat/test-originize_text.R
 cafbd400a99f8e0198170d6c9d31e299 *tests/testthat/test-originize_wrap.R
-84c6e51fda1f5efac7ccd8c5a3477afa *tests/testthat/test-print.R
+9db80bce7543e61760e7096ebe09b8e5 *tests/testthat/test-print.R
 32682ed16e0c6d5476f33a00ef343ab0 *tests/testthat/test-revert_parse_data.R
 727990e62580c243a175139d115c9e0d *tests/testthat/test-run_logging.R
 49a7f5373579bd58d389d18b3f610446 *tests/testthat/test-set_marker_type.R

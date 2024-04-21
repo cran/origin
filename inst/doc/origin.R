@@ -1,10 +1,10 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  originize_file(file = "testscript.R",
 #                 pkgs = .packages(),
 #                 overwrite = TRUE,
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 #                 verbose = TRUE,
 #                 use_markers = TRUE)
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  options(origin.pkgs = c("dplyr", "data.table"),
 #          origin.overwrite = TRUE)
 
