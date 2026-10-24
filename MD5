@@ -1,7 +1,7 @@
-fe94c50fc9d60f1afadd3f326799aa59 *DESCRIPTION
+fbd2ff376a8187b6740907665d7f8738 *DESCRIPTION
 dc69f3a341fd1f0cd80f9b2ec4347134 *LICENSE
-35bcb384381bf174f8625b68d0c35db8 *NAMESPACE
-0a63e873f78a7fc9db602233a4ad1505 *NEWS.md
+b7c0476d370e348689c5411a08863580 *NAMESPACE
+c59de3d91f0c5f65d70dfec0b97a4f32 *NEWS.md
 6240d88da0f5741ef30724ee0c0c0a1d *R/apply_changes.R
 7bd82d640d80a0445dc78bbd64187809 *R/check_pkg_usage.R
 9343112afcccd16a193ecb66b9403bf8 *R/duplicated_all.R
@@ -41,7 +41,7 @@ f6a3def379d02a516b81ff87e5381d31 *R/setdiff_specific.R
 605372244755c96fc8d0d078200cb7c8 *R/un_list.R
 807f0d1eef788cf2b0551474066ae1f4 *R/zzz.R
 f23494509466c104bd3471a285ae839f *README.md
-b5ec94ad173547561059a4096e00bad0 *build/vignette.rds
+b337164208804e5e0252b7f7705e0337 *build/vignette.rds
 485353c5bfc28a02d02878378f16f561 *inst/doc/origin.R
 c46639e497afb1a862657a1d727383da *inst/doc/origin.Rmd
 dd537249b737c349047760be3cf1852e *inst/doc/origin.html
@@ -57,7 +57,7 @@ bc3b5543611c28490b311ac5ac1638b0 *inst/testpath/file2.R
 8dce75be5e0277371544b608388c0828 *man/get_exported_functions.Rd
 f1423d33e36b33fe130129f888fbf660 *man/get_local_functions.Rd
 6d5c75ccc57ecdd222434bd4cd8f1d0b *man/get_pkgs_from_description.Rd
-3046050a3ba4e738632681302c850264 *man/origin-package.Rd
+4f6557552f66856425df086232304efe *man/origin-package.Rd
 517cb0f0eb466b21ad6275759f820244 *man/originize_dir.Rd
 a7a69c5cdbec9ffaa6900b861418b0e6 *man/originize_file.Rd
 c5de63ec9626539008f36cef801dde81 *man/originize_pkg.Rd
@@ -78,9 +78,9 @@ dc88767ec4343747965fa17204ba786e *tests/testthat/test-get_project_package.R
 c1a1c4c304479f31347cfdc7b8430f35 *tests/testthat/test-originize_dir.R
 1c178d297878b32a21a60d1544e97b42 *tests/testthat/test-originize_file.R
 314bb6c93842149ce0736c25ea247487 *tests/testthat/test-originize_text.R
-a74ff46f15ed54d9691900797539aed5 *tests/testthat/test-originize_wrap.R
+b1e3f3714f4673a110b4677664dfd12b *tests/testthat/test-originize_wrap.R
 9db80bce7543e61760e7096ebe09b8e5 *tests/testthat/test-print.R
-32682ed16e0c6d5476f33a00ef343ab0 *tests/testthat/test-revert_parse_data.R
+e5dd102531dcf039a2c7d4a9595e1a96 *tests/testthat/test-revert_parse_data.R
 727990e62580c243a175139d115c9e0d *tests/testthat/test-run_logging.R
 49a7f5373579bd58d389d18b3f610446 *tests/testthat/test-set_marker_type.R
 a447b3d3877a8e2ae56abde5788603d8 *tests/testthat/test-setdiff_specific.R
